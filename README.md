@@ -18,7 +18,7 @@ Convert scans of handwritten notes to beautiful, compact PDFs -- see full writeu
 - SciPy
 - ImageMagick
 - Image module from PIL or Pillow
-- `pdftoppm` and`img2pdf` (if you want to use the `pdf_noteshrink.ipynb`)
+- `pdftoppm` and`img2pdf` (if you want to use the `pdf_noteshrink.ipynb`). `convert` can be used instead of `img2pdf` but it craps out at larger pdf sizes and requires change in policy which requires root access.
 
 ## Installation
 
