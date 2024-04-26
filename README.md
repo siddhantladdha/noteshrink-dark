@@ -62,11 +62,27 @@ noteshrink-dark --help
 noteshrink-dark IMAGE1 [IMAGE2 ...]
 ```
 
-Create a directory named `upload` and place the pdf files you want to convert. They should be less than 2 GB in size, so
-break it up into sizeable chunks.
+If you want to convert pdf and directly use the optimized settings to get dracula theme, create a directory named
+`upload` and place the pdf files you want to convert. They should be less than 2 GB in size, so
+break it up into sizeable chunks. Then execute the following from your current directory.
 
 ```bash
 pdf-eat-pdf-shit
+```
+
+### Usage with Tweaks
+
+If you want to tweak the options in `pdf-eat-pdf-shit` you can clone the repository.
+
+```bash
+git clone https://github.com/siddhantladdha/noteshrink-dark.git
+```
+
+Make your changes and from the root directory of the repository run the following, which
+install your local version in your virtual environment.
+
+```bash
+pip install -e .
 ```
 
 ## Notes on changes made by me
