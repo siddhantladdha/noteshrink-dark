@@ -60,7 +60,7 @@ def run_noteshrink(preprocessed_images_dir):
     files = [f for f in os.listdir(preprocessed_images_dir) if f.endswith(
         '.png') and 'ns_page' not in f]
     print(files)
-    cmd = ' '.join(['noteshrink',
+    cmd = ' '.join(['noteshrink-dark',
                     '-w', '-n 5', '-b ns_page', '-C', '--dracula', '-o noteshrinked.pdf',
                     '-c "img2pdf --verbose %i --output %o"', ' '.join(files)
                     ])
