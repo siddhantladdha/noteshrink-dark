@@ -36,7 +36,7 @@ pip install git+ssh://git@github.com/siddhantladdha/noteshrink-dark.git
 To upgrade to the latest version you need to uninstall and re-install using the following. [Source](https://stackoverflow.com/questions/71356330/updating-pip-installed-package-from-git)
 
 ```bash
-pip uninstall noteshrink_dark
+pip uninstall noteshrink-dark
 pip install git+ssh://git@github.com/siddhantladdha/noteshrink-dark.git
 ```
 
