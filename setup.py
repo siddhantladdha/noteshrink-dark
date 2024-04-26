@@ -29,7 +29,7 @@ setup(
     ],
     entry_points="""
         [console_scripts]
-        noteshrink=noteshrink:main
+        noteshrink-dark=noteshrink:main
         pdf-eat-pdf-shit=pdf_eat_pdf_shit:main
     """,
 )
