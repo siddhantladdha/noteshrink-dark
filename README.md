@@ -43,13 +43,15 @@ pip install git+ssh://git@github.com/siddhantladdha/noteshrink-dark.git
 ## Usage
 
 ```bash
-./noteshrink.py IMAGE1 [IMAGE2 ...]
+noteshrink-dark --help
+noteshrink-dark IMAGE1 [IMAGE2 ...]
 ```
 
-Building the examples (already in `example_output`):
+Create a directory named `upload` and place the pdf files you want to convert. They should be less than 2 GB in size, so
+break it up into sizeable chunks.
 
 ```bash
-make
+pdf-eat-pdf-shit
 ```
 
 ## Notes on changes made by me
