@@ -138,3 +138,13 @@ def pdf_in_upload_to_processes(upload_dir, archival_dir):
         for future in results:
             future.result()  # This will wait for the process to complete and handle exceptions
     return True
+
+def main():
+    '''Currently uses the default behaviour of processing all PDFs in the upload directory.'''
+    upload_directory = './upload'
+    archival_directory = './archival'
+    pdf_in_upload_to_processes(upload_directory, archival_directory)
+    process_archival_directory(archival_directory)
+
+if __name__ == '__main__':
+    main()

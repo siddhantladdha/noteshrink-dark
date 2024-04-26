@@ -15,11 +15,12 @@ if sys.argv[-1] == "publish":
     sys.exit()
 
 setup(
-    name="noteshrink",
-    version="0.1.1",
+    name="noteshrink-dark",
+    version="0.2.1",
     author="Matt Zucker",
-    description="Convert scans of handwritten notes to beautiful, compact PDFs",
-    url="https://github.com/mzucker/noteshrink",
+    maintainer="Siddhant Laddha",
+    description="Convert scans of handwritten notes to beautiful, compact PDFs with Dark Mode!",
+    url="https://github.com/siddhantladdha/noteshrink-dark",
     py_modules=["noteshrink"],
     install_requires=[
         "numpy>=1.1.0",
@@ -29,5 +30,6 @@ setup(
     entry_points="""
         [console_scripts]
         noteshrink=noteshrink:main
+        pdf-eat-pdf-shit=pdf_eat_pdf_shit:main
     """,
 )
