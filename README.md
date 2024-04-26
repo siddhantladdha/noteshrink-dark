@@ -23,6 +23,13 @@ Convert scans of handwritten notes to beautiful, compact PDFs -- see full writeu
 ## Installation
 
 ```bash
+conda create --name test_env python=3.10 jupyterlab scipy numpy pillow
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+conda activate test_env
+```
+
+```bash
 pip install git+ssh://git@github.com/siddhantladdha/noteshrink-dark.git
 ```
 
@@ -96,18 +103,32 @@ I tried soo hard and got so far and in the end it didn't even matter! I tried us
 My procedure is documented in [./pdf_noteshrink.ipynb]. I would recommend since the procedure has a few tricks for taking PDF inputs as well as directory management for archival purposes so that
 you can change the color scheme down the line without having to noteshrink again. I also use some contrast enhancement pre-processing to improve the results.
 
-### Results
+## Results
+
+### Original Image 3.3 MB
 
 ![Original Image 3.3 MB](./example_output/readme_images/Original.png)
 
+### Preprocessed Image 3.4 MB
+
 ![Preprocessed Image 3.4 MB](./example_output/readme_images/Preprocessed.png)
+
+### Noteshrinked Light Mode Image 427 KB
 
 ![Noteshrinked Light Mode Image 427 KB](./example_output/readme_images/Light_mode.png)
 
+### Noteshrinked Dark Mode Image 429 KB
+
 ![Noteshrinked Dark Mode Image 429 KB](./example_output/readme_images/Dark_mode.png)
+
+### Noteshrinked HSL Inverted Image 427 KB
 
 ![Noteshrinked HSL Inverted Image 427 KB](./example_output/readme_images/HSL_inversion.png)
 
+### Noteshrinked Dracula Themed Image 427 KB
+
 ![Noteshrinked Dracula Themed Image 427 KB](./example_output/readme_images/dracula.png)
+
+### Noteshrinked RGB Inverted Image 427 KB
 
 ![Noteshrinked RGB Inverted Image 427 KB](./example_output/readme_images/RGB_inversion.png)
