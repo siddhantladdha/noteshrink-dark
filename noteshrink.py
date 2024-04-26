@@ -15,6 +15,7 @@ import os
 import re
 import subprocess
 import shlex
+import colorsys
 
 from argparse import ArgumentParser
 
@@ -234,6 +235,20 @@ def get_argument_parser():
     parser.add_argument('-w', dest='white_bg', action='store_true',
                         default=False, help='make background white')
 
+    parser.add_argument('--invert_rgb', dest='invert_rgb', action='store_true',
+                        default=False, help='Invert the Palette in RGB Color space')
+
+    parser.add_argument('--invert_hsl', dest='invert_hsl', action='store_true',
+                        default=False, help='Invert the Palette (Luminance) in HSL Color space')
+
+    parser.add_argument('--dark_mode', dest='dark_mode', action='store_true',
+                        default=False,
+                        help='''Invert the Palette (Luminance) in HSL Color space
+                                and optimize for dark mode by maxing out the saturation.''')
+
+    parser.add_argument('--dracula', dest='dracula', action='store_true',
+                        default=False, help='(Almost) convert to Dracula color scheme')
+
     parser.add_argument('-g', dest='global_palette',
                         action='store_true', default=False,
                         help='use one global palette for all pages')
@@ -451,9 +466,77 @@ the background color to pure white.
         palette = palette.copy()
         palette[0] = (255, 255, 255)
 
+    if options.invert_rgb:
+        palette = palette.copy()
+        # Crude Inversion in RGB colorspace.
+        palette = 255 - palette
+        palette = palette.astype(np.uint8)
+    elif options.invert_hsl:
+        palette = palette.copy()
+        # Convert RGB to HSL, invert luminance, and convert back to RGB
+        palette = np.array([invert_luminance(color) for color in palette])
+        palette = palette.astype(np.uint8)
+    elif options.dark_mode:
+        palette = palette.copy()
+        # Convert RGB to HSL, invert luminance and optimize for dark mode
+        palette = np.array([dark_mode(color) for color in palette])
+        palette = palette.astype(np.uint8)
+    elif options.dracula:
+        palette = palette.copy()
+        palette = np.array([dracula_palette(color) for color in palette])
+        # Override whatever happened to the background color.
+        palette[0] = (40, 42, 54)
+        palette = palette.astype(np.uint8)
+    else:
+        print("No dark palette transformations applied.")
     output_img = Image.fromarray(labels, 'P')
     output_img.putpalette(palette.flatten())
     output_img.save(output_filename, dpi=dpi)
+
+######################################################################
+# Function to convert RGB to HSL, invert luminance, and convert back to RGB
+
+def invert_luminance(rgb_tuple):
+    # Convert RGB to HSL
+    r, g, b = rgb_tuple
+    h, l, s = colorsys.rgb_to_hls(r / 255.0, g / 255.0, b / 255.0)
+    # Invert luminance
+    l = 1 - l
+    # Convert back to RGB
+    r, g, b = colorsys.hls_to_rgb(h, l, s)
+    return (int(r * 255), int(g * 255), int(b * 255))
+
+def dark_mode(rgb_tuple):
+    # Convert RGB to HSL
+    r, g, b = rgb_tuple
+    h, l, s = colorsys.rgb_to_hls(r / 255.0, g / 255.0, b / 255.0)
+    # Invert luminance
+    l = 1 - l
+    # Saturate everything (except for white color)
+    if r != 255 and g != 255 and b != 255:
+        s = 1
+    # Convert back to RGB
+    r, g, b = colorsys.hls_to_rgb(h, l, s)
+    return (int(r * 255), int(g * 255), int(b * 255))
+
+def dracula_palette(rgb_tuple):
+    # Convert RGB to HSL
+    r, g, b = rgb_tuple
+    h, l, s = colorsys.rgb_to_hls(r / 255.0, g / 255.0, b / 255.0)
+    # Convert blue color (ink) to white
+    if h > 0.48 and h < 0.736:
+        return (248,248,242) # Directly return the white foreground color for blue strokes.
+    # Convert black color to white foreground
+    if l < 0.15 and s < 0.2:
+        return (248,248,242) # Directly return the white foreground color for black/grey/dark strokes.
+    # Else
+    # Fixed luminance obtained Max from colors of Dracula color scheme
+    l = 0.78
+    # Completely Saturate obtained max from colors of Dracula color scheme
+    s = 1
+    # Convert back to RGB
+    r, g, b = colorsys.hls_to_rgb(h, l, s)
+    return (int(r * 255), int(g * 255), int(b * 255))
 
 ######################################################################
 
