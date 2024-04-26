@@ -24,8 +24,17 @@ Convert scans of handwritten notes to beautiful, compact PDFs -- see full writeu
 
 ```bash
 conda create --name test_env python=3.10 jupyterlab scipy numpy pillow
+```
+
+```bash
 conda config --add channels conda-forge
+```
+
+```bash
 conda config --set channel_priority strict
+```
+
+```bash
 conda activate test_env
 ```
 
@@ -37,6 +46,9 @@ To upgrade to the latest version you need to uninstall and re-install using the 
 
 ```bash
 pip uninstall noteshrink-dark
+```
+
+```bash
 pip install git+ssh://git@github.com/siddhantladdha/noteshrink-dark.git
 ```
 
@@ -44,6 +56,9 @@ pip install git+ssh://git@github.com/siddhantladdha/noteshrink-dark.git
 
 ```bash
 noteshrink-dark --help
+```
+
+```bash
 noteshrink-dark IMAGE1 [IMAGE2 ...]
 ```
 
