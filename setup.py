@@ -21,7 +21,7 @@ setup(
     maintainer="Siddhant Laddha",
     description="Convert scans of handwritten notes to beautiful, compact PDFs with Dark Mode!",
     url="https://github.com/siddhantladdha/noteshrink-dark",
-    py_modules=["noteshrink"],
+    py_modules=["noteshrink-dark", "pdf_eat_pdf_shit"],
     install_requires=[
         "numpy>=1.1.0",
         "scipy",

@@ -8,3 +8,4 @@ page*png
 archival
 download
 upload
+*.egg-info/
