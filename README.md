@@ -67,7 +67,13 @@ If you want to convert pdf and directly use the optimized settings to get dracul
 break it up into sizeable chunks. Then execute the following from your current directory.
 
 ```bash
-pdf-eat-pdf-shit
+pdf-eat-pdf-shit --conversion_mode dracula
+```
+
+Try the following to get all the supported arguements.
+
+```bash
+pdf-eat-pdf-shit -help
 ```
 
 ### Usage with Tweaks
