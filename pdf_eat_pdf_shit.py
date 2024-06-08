@@ -146,6 +146,7 @@ def main():
     archival_directory = './archival'
     parser = argparse.ArgumentParser(description='Process and shrink PDF images.')
     parser.add_argument('--conversion_mode', type=str, default='dracula', help='Mode of conversion to be used: dracula (default), dark_mode, invert_hsl, invert_rgb')
+    args = parser.parse_args()
     pdf_in_upload_to_processes(upload_directory, archival_directory,args.conversion_mode)
     process_archival_directory(archival_directory)
 
