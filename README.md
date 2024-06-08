@@ -73,7 +73,7 @@ pdf-eat-pdf-shit --conversion_mode dracula
 Try the following to get all the supported arguements.
 
 ```bash
-pdf-eat-pdf-shit -help
+pdf-eat-pdf-shit --help
 ```
 
 ### Usage with Tweaks
