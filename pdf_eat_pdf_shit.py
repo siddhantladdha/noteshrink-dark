@@ -56,19 +56,19 @@ def convert_pdf_to_png(pdf_path, output_dir, dpi=300):
     subprocess.run(command, shell=True)
 
 
-def run_noteshrink(preprocessed_images_dir,conversion_mode):
+def run_noteshrink(preprocessed_images_dir,conversion_mode,num_colors):
     """Run the noteshrink command on processed images."""
     files = [f for f in os.listdir(preprocessed_images_dir) if f.endswith(
         '.png') and 'ns_page' not in f]
     print(files)
     cmd = ' '.join(['noteshrink',
-                    '-w', '-n 5', '-b ns_page', '-C', f'--{conversion_mode}', '-o noteshrinked.pdf',
+                    '-w', f'-n {str(num_colors)}', '-b ns_page', '-C', f'--{conversion_mode}', '-o noteshrinked.pdf',
                     '-c "img2pdf --verbose %i --output %o"', ' '.join(files)
                     ])
     subprocess.run(cmd, shell=True, cwd=preprocessed_images_dir)
 
 
-def process_pdf(pdf_path, root_archival,conversion_mode):
+def process_pdf(pdf_path, root_archival,conversion_mode,num_colors):
     """Process a single PDF file."""
     pdf_path = Path(pdf_path)  # Ensure pdf_path is a Path object
     if not check_pdf_size(pdf_path):
@@ -83,7 +83,7 @@ def process_pdf(pdf_path, root_archival,conversion_mode):
         if image_file.suffix.lower() == '.png':
             process_image(image_file.name, original_images_dir,
                           preprocessed_images_dir)
-    run_noteshrink(base_dir / "preprocessed_images",conversion_mode)
+    run_noteshrink(base_dir / "preprocessed_images",conversion_mode,num_colors)
 
 def move_files_and_prepare_download(subdir):
     """
@@ -127,7 +127,7 @@ def process_archival_directory(archival_dir_path):
     with ThreadPoolExecutor() as executor:
         executor.map(move_files_and_prepare_download, subdirs)
 
-def pdf_in_upload_to_processes(upload_dir, archival_dir,conversion_mode):
+def pdf_in_upload_to_processes(upload_dir, archival_dir,conversion_mode,num_colors):
     """Main function to process all PDFs in the upload directory."""
     root_archival = Path(archival_dir)
     upload_path = Path(upload_dir)
@@ -135,7 +135,7 @@ def pdf_in_upload_to_processes(upload_dir, archival_dir,conversion_mode):
 
     with ProcessPoolExecutor() as executor:
         results = [executor.submit(
-            process_pdf, pdf, root_archival, conversion_mode) for pdf in pdfs]
+            process_pdf, pdf, root_archival, conversion_mode,num_colors) for pdf in pdfs]
         for future in results:
             future.result()  # This will wait for the process to complete and handle exceptions
     return True
@@ -146,8 +146,9 @@ def main():
     archival_directory = './archival'
     parser = argparse.ArgumentParser(description='Process and shrink PDF images.')
     parser.add_argument('--conversion_mode', type=str, default='dracula', help='Mode of conversion to be used: dracula (default), dark_mode, invert_hsl, invert_rgb')
+    parser.add_argument('--num_colors', type=int, default=8, help='Number of output colors')
     args = parser.parse_args()
-    pdf_in_upload_to_processes(upload_directory, archival_directory,args.conversion_mode)
+    pdf_in_upload_to_processes(upload_directory, archival_directory,args.conversion_mode,args.num_colors)
     process_archival_directory(archival_directory)
 
 if __name__ == '__main__':
