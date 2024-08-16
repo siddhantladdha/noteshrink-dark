@@ -245,7 +245,13 @@ def get_argument_parser():
                         default=False,
                         help='''Invert the Palette (Luminance) in HSL Color space
                                 and optimize for dark mode by maxing out the saturation.''')
-
+                                
+    parser.add_argument('--dark_mode_bg_dracula', dest='dark_mode_bg_dracula', action='store_true',
+                        default=False,
+                        help='''Invert the Palette (Luminance) in HSL Color space
+                                and optimize for dark mode by maxing out the saturation. The BG color
+                                in this case will be Dracula Background #282A36''')
+                                
     parser.add_argument('--dracula', dest='dracula', action='store_true',
                         default=False, help='(Almost) convert to Dracula color scheme')
 
@@ -480,6 +486,13 @@ the background color to pure white.
         palette = palette.copy()
         # Convert RGB to HSL, invert luminance and optimize for dark mode
         palette = np.array([dark_mode(color) for color in palette])
+        palette = palette.astype(np.uint8)
+    elif options.dark_mode_bg_dracula:
+        palette = palette.copy()
+        # Convert RGB to HSL, invert luminance and optimize for dark mode
+        palette = np.array([dark_mode(color) for color in palette])
+        # Override whatever happened to the background color.
+        palette[0] = (40, 42, 54)
         palette = palette.astype(np.uint8)
     elif options.dracula:
         palette = palette.copy()
