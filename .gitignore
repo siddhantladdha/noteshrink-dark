@@ -9,3 +9,5 @@ archival
 download
 upload
 *.egg-info/
+build
+build/
